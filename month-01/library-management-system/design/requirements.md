@@ -1,4 +1,4 @@
-# Library Management System — Requirements
+# Library Management System - Requirements
 
 ## Overview
 
