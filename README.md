@@ -10,7 +10,7 @@ Each month is organized separately so the work can be reviewed and navigated eas
 
 ## Quick Navigation
 
-### Month 1 — Library Management System
+### Month 1: Library Management System
 
 - [Requirements](./month-01/library-management-system/design/requirements.md)
 - [Design Notes](./month-01/library-management-system/design/design-notes.md)
@@ -18,6 +18,17 @@ Each month is organized separately so the work can be reviewed and navigated eas
 - [Database Relationship Diagram](./month-01/library-management-system/database/er-diagram.md)
 - [Database Schema](./month-01/library-management-system/database/schema.sql)
 - [Example SQL Queries](./month-01/library-management-system/database/example-queries.sql)
+
+### Month 2: TDD Practice
+
+- [Book Pricing Exercise](./month-02/testing/)
+
+### Month 2: Movie Rental System
+
+- [README](./month-02/movie-rental-system/README.md)
+- [Requirements](./month-02/movie-rental-system/docs/requirements.md)
+- [Design Notes](./month-02/movie-rental-system/docs/design.md)
+- [Testing Notes](./month-02/movie-rental-system/docs/testing.md)
 
 ---
 
@@ -47,8 +58,6 @@ I plan to use the feedback from this first system before moving on to the next d
 
 ## Library Management System
 
-[Open Library Management System](./month-01/library-management-system/README.md)
-
 This project includes:
 
 - system requirements
@@ -60,6 +69,43 @@ This project includes:
 - indexing decisions
 - example SQL queries
 
+---
+
+## Month 2: Unit Testing and TDD
+
+For Month 2, I'm practicing test-driven development and unit testing in Java with JUnit 5, then applying those skills to a second system-design exercise: a Movie Rental System.
+
+The focus of this work is applying concepts such as:
+
+- test-driven development (red, green, refactor)
+- JUnit 5
+- unit testing and edge cases
+- input validation
+- encapsulation
+- Maven project setup
+
+---
+
+## Book Pricing TDD Exercise
+
+[Open Exercise](./month-02/testing/)
+
+A small TDD kata used to practice the red, green, refactor cycle with JUnit 5, covering discount calculation and its edge cases.
+
+---
+
+## Movie Rental System
+
+[Open Movie Rental System](./month-02/movie-rental-system/README.md)
+
+This project currently includes:
+
+- system requirements
+- design notes and reasoning
+- Maven project configured with JUnit 5
+- a `Movie` class with input validation and unit tests
+
+This project is in progress. Customers, rentals, and returns are not yet implemented.
 
 ---
 
@@ -70,18 +116,39 @@ software-engineering-learning-program/
 │
 ├── README.md
 │
-└── month-01/
-    └── library-management-system/
+├── month-01/
+│   └── library-management-system/
+│       ├── design/
+│       │   ├── requirements.md
+│       │   ├── design-notes.md
+│       │   └── diagram.md
+│       │
+│       ├── database/
+│       │   ├── schema.sql
+│       │   ├── er-diagram.md
+│       │   └── example-queries.sql
+│       │
+│       └── src/
+│
+└── month-02/
+    ├── testing/
+    │   ├── pom.xml
+    │   └── src/
+    │       ├── main/java/BookPricing.java
+    │       └── test/java/BookPricingTest.java
+    │
+    └── movie-rental-system/
         ├── README.md
-        ├── design/
+        ├── pom.xml
+        ├── docs/
         │   ├── requirements.md
-        │   ├── design-notes.md
-        │   └── diagrams.md
-        │
-        ├── database/
-        │   ├── schema.sql
-        │   ├── er-diagram.md
-        │   └── example-queries.sql
+        │   ├── design.md
+        │   └── testing.md
         │
         └── src/
+            ├── main/java/
+            │   ├── Movie.java
+            │   └── Rental.java
+            └── test/java/
+                └── MovieTest.java
 ```
