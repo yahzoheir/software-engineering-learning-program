@@ -43,6 +43,8 @@ The system must reject invalid inputs and actions with a clear explanation, incl
 - Renting an unavailable movie.
 - Renting when the customer has reached the rental limit.
 - Returning a rental that does not exist or has already been returned.
+- Creating a movie with a null, empty, or whitespace-only title.
+- Registering a customer with a null, empty, or whitespace-only name.
 
 ## Outside the Initial Scope
 
