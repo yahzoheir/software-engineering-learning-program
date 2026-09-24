@@ -47,4 +47,44 @@ public class MovieTest {
         });
     }
 
+    //Testing that renting one copy reduces availablity by one
+
+    @Test 
+    void rentCopyDecreasesAvailableCopiesByOne() {
+        Movie movie = new Movie(1, "Inception", 2);
+
+        movie.rentCopy();
+
+        assertEquals(1, movie.getAvailableCopies());
+    }
+
+    @Test 
+    void rentingCopyWith0AvailableCopiesIsRejected() {
+        Movie movie = new Movie(1, "Inception", 0);
+
+        assertThrows(IllegalStateException.class, () -> {
+            movie.rentCopy();
+        });
+    }
+
+    @Test
+    void rentCopyAllowsRentingLastAvailableCopy() {
+    Movie movie = new Movie(1, "Inception", 1);
+
+    movie.rentCopy();
+
+    assertEquals(0, movie.getAvailableCopies());
+    }
+
+    @Test
+    void returnCopyIncreasesAvailableCopiesByOne() {
+    Movie movie = new Movie(1, "Inception", 0);
+
+    movie.returnCopy();
+
+    assertEquals(1, movie.getAvailableCopies());
+    }
+
+    
+
 }

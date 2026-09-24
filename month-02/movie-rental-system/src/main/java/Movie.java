@@ -30,4 +30,15 @@ public class Movie {
         return this.availableCopies;
     }
 
+    public void rentCopy() {
+        if (this.availableCopies == 0) {
+            throw new IllegalStateException("There are no available copies of this movie");
+        }
+        this.availableCopies--;
+    }
+
+    public void returnCopy() {
+        availableCopies++;
+    }
+
 }
