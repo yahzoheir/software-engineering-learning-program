@@ -33,3 +33,17 @@ Active rental tests verify that:
 - Removing a rental takes it out of the customer's active rentals.
 - Removing one rental preserves the customer's other active rentals.
 - Removing a rental that is not present leaves the list unchanged.
+
+## Rental unit tests
+
+Rental is tested with JUnit 5.
+
+Constructor tests verify that:
+- The id, customer, and movie passed to the constructor are stored
+  and accessible through getters.
+- A newly created rental is not returned.
+
+Return status tests verify that:
+- markReturned() changes an active rental to returned.
+- markReturned() on an already returned rental throws
+  IllegalStateException and leaves it returned.
