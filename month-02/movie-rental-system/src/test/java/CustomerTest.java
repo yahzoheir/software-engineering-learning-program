@@ -42,40 +42,44 @@ public class CustomerTest {
         assertTrue(customer.getActiveRentals().isEmpty());
     }
 
-    @Test 
+    @Test
     void getActiveRentalsPreventsExternelAddition() {
         Customer customer = new Customer(1, "Yahia");
+        Movie movie = new Movie(1, "Inception", 1);
         assertThrows(UnsupportedOperationException.class, () -> {
-            customer.getActiveRentals().add(new Rental());
+            customer.getActiveRentals().add(new Rental(1, customer, movie));
         });
 
         assertTrue(customer.getActiveRentals().isEmpty());
     }
 
-    @Test 
+    @Test
     void addActiveRentalStoresRentalInCustomerList() {
         Customer customer = new Customer(0, "Yahia");
-        Rental rental = new Rental();
+        Movie movie = new Movie(1, "Inception", 1);
+        Rental rental = new Rental(1, customer, movie);
         customer.addActiveRental(rental);
 
         assertEquals(1, customer.getActiveRentals().size());
     }
 
-    @Test 
+    @Test
     void removeActiveRentalRemovesRentalFromCustomerList() {
         Customer customer = new Customer(0, "Yahia");
-        Rental rental = new Rental();
+        Movie movie = new Movie(1, "Inception", 1);
+        Rental rental = new Rental(1, customer, movie);
         customer.addActiveRental(rental);
         assertEquals(1, customer.getActiveRentals().size());
         customer.removeActiveRental(rental);
         assertEquals(0, customer.getActiveRentals().size());
     }
 
-    @Test 
+    @Test
     void removeActiveRentalPreservesOtherRentals() {
         Customer customer = new Customer(0, "Yahia");
-        Rental rental1 = new Rental();
-        Rental rental2 = new Rental();
+        Movie movie = new Movie(1, "Inception", 1);
+        Rental rental1 = new Rental(1, customer, movie);
+        Rental rental2 = new Rental(2, customer, movie);
         customer.addActiveRental(rental1);
         customer.addActiveRental(rental2);
         customer.removeActiveRental(rental2);
@@ -84,11 +88,12 @@ public class CustomerTest {
 
     }
 
-    @Test 
+    @Test
     void removeActiveRentalLeavesListUnchangedWhenRentalIsAbsent() {
         Customer customer = new Customer(0, "Yahia");
-        Rental rental1 = new Rental();
-        Rental rental2 = new Rental();
+        Movie movie = new Movie(1, "Inception", 1);
+        Rental rental1 = new Rental(1, customer, movie);
+        Rental rental2 = new Rental(2, customer, movie);
         customer.addActiveRental(rental1);
         customer.removeActiveRental(rental2);
         assertEquals(1, customer.getActiveRentals().size());
