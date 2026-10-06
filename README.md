@@ -104,8 +104,11 @@ This project currently includes:
 - design notes and reasoning
 - Maven project configured with JUnit 5
 - a `Movie` class with input validation and unit tests
+- a `Customer` class with name validation and active-rental tracking
+- a `Rental` class that tracks whether it has been returned
+- a `RentalService` that registers and looks up customers
 
-This project is in progress. Customers, rentals, and returns are not yet implemented.
+This project is in progress. Renting and returning movies through `RentalService` is not yet implemented.
 
 ---
 

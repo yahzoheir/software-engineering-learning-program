@@ -47,3 +47,17 @@ Return status tests verify that:
 - markReturned() changes an active rental to returned.
 - markReturned() on an already returned rental throws
   IllegalStateException and leaves it returned.
+
+## RentalService unit tests
+
+RentalService is tested with JUnit 5.
+
+Customer registration tests verify that:
+- Registering a customer creates it with an id and name.
+- Consecutive registrations receive consecutive ids.
+- Null, empty, and whitespace-only names are rejected.
+- A rejected registration does not use up an id.
+
+Customer lookup tests verify that:
+- getCustomerById() returns the registered customer.
+- getCustomerById() rejects an unknown id.
