@@ -23,4 +23,18 @@ public class RentalService {
         return this.customers.get(id);
     }
 
+    public Movie addMovie(String title, int availableCopies) {
+        Movie movie = new Movie(nextMovieId, title, availableCopies);
+        movies.put(nextMovieId, movie);
+        nextMovieId++;
+        return movie;
+    }
+
+    public Movie getMovieById(int id) {
+        if(!movies.containsKey(id)) {
+            throw new IllegalArgumentException("No movie exists with this id");
+        }
+        return movies.get(id);
+    }
+
 }
