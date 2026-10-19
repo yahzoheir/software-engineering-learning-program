@@ -61,3 +61,57 @@ Customer registration tests verify that:
 Customer lookup tests verify that:
 - getCustomerById() returns the registered customer.
 - getCustomerById() rejects an unknown id.
+
+Movie registration tests verify that:
+- addMovie() creates a movie with an id, title, and available copies.
+- Consecutive additions receive consecutive ids.
+- Null, empty, and whitespace-only titles are rejected.
+- Negative available copies are rejected.
+- A rejected addition does not use up an id.
+- Zero available copies are accepted.
+
+Movie lookup tests verify that:
+- getMovieById() returns the added movie.
+- getMovieById() rejects an unknown id.
+
+Rental creation tests verify that:
+- rentMovie() creates a rental for the given customer and movie.
+  The test uses different customer and movie ids so swapped arguments
+  would be caught. The earlier version of this test passed the
+  arguments in the wrong order and only passed because both ids were 1.
+- Renting decreases the movie's available copies by one.
+- The rental is added to the customer's active rentals, and it is the
+  same object that rentMovie() returned.
+- Consecutive rentals receive consecutive ids.
+
+Rental rejection tests verify that:
+- An unknown customer or an unknown movie throws
+  IllegalArgumentException.
+- A movie with no available copies throws IllegalStateException.
+- A customer with 3 active rentals cannot rent a fourth. The third
+  rental is allowed, and the fourth throws IllegalStateException.
+- A rejected rental leaves available copies and the customer's active
+  rentals unchanged, and does not use up a rental id.
+
+Testing decisions for rentMovie():
+- The unknown customer and unknown movie errors come from the existing
+  lookup methods. The no-copies and rental-limit errors use
+  IllegalStateException, matching Movie.rentCopy() and
+  Rental.markReturned().
+- The limit test rents three different movies, because the requirements
+  do not say whether a customer may hold the same movie twice at once.
+- The rental map has no getter yet, so rejected rentals are checked
+  through the customer's active rentals, the movie's available copies,
+  and the next rental id.
+
+rentMovie() was developed through a Red-Green cycle. The first version,
+which only created a rental, was committed before the new tests.
+- Red: 22 RentalServiceTest tests ran, 4 failed. The new tests for
+  decreasing copies, adding to the customer's active rentals, rejecting
+  a movie with no copies, and rejecting a fourth rental failed because
+  the behavior was missing. The other new tests already passed because
+  the existing code covered them.
+- Green: after adding the availability check, the rental limit check,
+  and the inventory and customer updates, all 22 RentalServiceTest
+  tests passed. The full suite ran 46 tests with 0 failures.
+- No refactoring was needed.
