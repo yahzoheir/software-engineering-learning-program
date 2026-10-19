@@ -115,3 +115,53 @@ which only created a rental, was committed before the new tests.
   and the inventory and customer updates, all 22 RentalServiceTest
   tests passed. The full suite ran 46 tests with 0 failures.
 - No refactoring was needed.
+
+Rental lookup tests verify that:
+- getRentalById() returns the rental created by rentMovie().
+- getRentalById() rejects an unknown id.
+
+Rental return tests verify that:
+- returnMovie() marks the rental as returned.
+- Returning a rental increases the movie's available copies by one.
+- The rental is removed from the customer's active rentals.
+- The returned rental stays in the service and can still be found with
+  getRentalById(), so rental history is preserved.
+- Returning one rental leaves the customer's other rentals and the other
+  movie's available copies unchanged.
+
+Return rejection tests verify that:
+- An unknown rental id throws IllegalArgumentException.
+- Returning an already returned rental throws IllegalStateException.
+- A rejected return leaves available copies, the customer's active
+  rentals, and the rental's returned status unchanged. In particular, a
+  second return does not add a second copy back to inventory.
+
+Rental slot workflow test verifies that:
+- A customer with 3 active rentals is rejected on a fourth rental.
+- After returning one rental, the fourth rental succeeds.
+- The customer ends with 3 active rentals, the returned movie has its
+  copy back, and the newly rented movie has none available.
+This checks that rentMovie() and returnMovie() work together.
+
+Testing decisions for returnMovie():
+- Unknown rental ids use IllegalArgumentException, like the other
+  lookups. An already returned rental uses IllegalStateException, like
+  Rental.markReturned().
+- getRentalById() was added because the rentals map has no other way to
+  be read. It also lets the tests check that returned rentals stay in
+  the service as history.
+- The new methods were first added as empty stubs (getRentalById()
+  returned null, returnMovie() did nothing) so the tests could compile
+  and fail for the right reasons.
+
+returnMovie() was developed through a Red-Green cycle.
+- Red: with the stubs, 56 tests ran, 46 passed, and the 10 new tests
+  failed: 9 failures and 1 error. The error was the slot workflow test,
+  where the fourth rental was still rejected because the return did not
+  free the slot. The other failures were a null rental from the stub, no
+  exception for an unknown or already returned rental, and no change to
+  the rental, inventory, or customer's active rentals.
+- Green: after implementing getRentalById() and returnMovie(), all 32
+  RentalServiceTest tests passed. The full suite ran 56 tests with 0
+  failures.
+- No refactoring was needed.
