@@ -156,7 +156,18 @@ public class RentalServiceTest {
         assertEquals(0, movie.getAvailableCopies());
     }
     
-    
+    @Test 
+    void rentMovieCreatesRentalForCustomerAndMovie() {
+        RentalService service = new RentalService();
+        Customer customer = service.registerCustomer("Yahia");
+        Movie movie = service.addMovie("Inception", 2);
+
+        Rental rental = service.rentMovie(movie.getId(), customer.getId());
+
+        assertEquals(1, rental.getId());
+        assertEquals(customer, rental.getCustomer());
+        assertEquals(movie, rental.getMovie());
+    }
 
 
 

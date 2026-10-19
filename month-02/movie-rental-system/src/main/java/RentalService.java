@@ -37,4 +37,17 @@ public class RentalService {
         return movies.get(id);
     }
 
+    public Rental rentMovie(int customerId, int movieId) {
+        Customer customer = getCustomerById(customerId);
+        Movie movie = getMovieById(movieId);
+
+        Rental rental = new Rental(nextRentalId, customer, movie);
+        rentals.put(nextRentalId, rental);
+        nextRentalId++;
+
+        return rental;
+    }
+
+
+
 }
