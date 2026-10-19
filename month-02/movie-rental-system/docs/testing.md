@@ -165,3 +165,37 @@ returnMovie() was developed through a Red-Green cycle.
   RentalServiceTest tests passed. The full suite ran 56 tests with 0
   failures.
 - No refactoring was needed.
+
+
+## Integration tests
+
+RentalWorkflowIntegrationTest is tested with JUnit 5.
+
+These are in-memory integration tests. Each test creates a RentalService
+and checks how RentalService, Movie, Customer, and Rental work together
+across several steps. They use no database and no HTTP API.
+
+Workflow tests verify that:
+- Two customers competing for the last copy of a movie are handled
+  correctly. The second customer is rejected while the first holds the
+  copy, and succeeds after the first returns it.
+- A customer can rent the same movie again after returning it. The
+  first rental stays in history as returned, and the second rental has
+  a different id and is the only active rental.
+- Returning the middle one of three rentals keeps the other two in the
+  customer's active rentals in their original order, and restores a
+  copy only for the returned movie.
+- Rejected rentals and a rejected return leave other customers, other
+  movies, and existing rentals unchanged.
+- A rejected rental creates no rental record, for both a movie with no
+  available copies and a customer with 3 active rentals. getRentalById()
+  rejects the id that the rejected rental would have used. Rental ids
+  stay consecutive, and after one rental is returned the next
+  successful rental receives id 4.
+
+Results: all 5 integration tests passed, and the full suite ran 61
+tests with 0 failures.
+
+These tests passed as soon as they were written because rentMovie() and
+returnMovie() already existed, so there was no Red phase. They add
+coverage of multi-step behavior and do not drive new functionality.
