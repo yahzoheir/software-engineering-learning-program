@@ -25,3 +25,6 @@ replay_pid*
 
 # macOS folder metadata
 .DS_Store
+
+# Maven build output
+target/
