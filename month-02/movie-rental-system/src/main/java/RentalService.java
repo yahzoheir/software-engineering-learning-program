@@ -61,10 +61,22 @@ public class RentalService {
     }
 
     public Rental getRentalById(int id) {
-        return null;
+        if (!rentals.containsKey(id)) {
+            throw new IllegalArgumentException("No rental exists with this id");
+        }
+        return rentals.get(id);
     }
 
     public void returnMovie(int rentalId) {
+        Rental rental = getRentalById(rentalId);
+
+        if (rental.isReturned()) {
+            throw new IllegalStateException("Rental is already returned");
+        }
+
+        rental.markReturned();
+        rental.getCustomer().removeActiveRental(rental);
+        rental.getMovie().returnCopy();
     }
 
 }
