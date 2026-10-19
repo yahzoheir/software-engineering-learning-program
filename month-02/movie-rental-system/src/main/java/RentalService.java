@@ -2,6 +2,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RentalService {
+    private static final int MAX_ACTIVE_RENTALS = 3;
+
     private final Map<Integer, Customer> customers = new HashMap<>();
     private final Map<Integer, Movie> movies = new HashMap<>();
     private final Map<Integer, Rental> rentals = new HashMap<>();
@@ -35,6 +37,46 @@ public class RentalService {
             throw new IllegalArgumentException("No movie exists with this id");
         }
         return movies.get(id);
+    }
+
+    public Rental rentMovie(int customerId, int movieId) {
+        Customer customer = getCustomerById(customerId);
+        Movie movie = getMovieById(movieId);
+
+        if (movie.getAvailableCopies() == 0) {
+            throw new IllegalStateException("There are no available copies of this movie");
+        }
+
+        if (customer.getActiveRentals().size() >= MAX_ACTIVE_RENTALS) {
+            throw new IllegalStateException("Customer has reached the maximum number of active rentals");
+        }
+
+        Rental rental = new Rental(nextRentalId, customer, movie);
+        rentals.put(nextRentalId, rental);
+        customer.addActiveRental(rental);
+        movie.rentCopy();
+        nextRentalId++;
+
+        return rental;
+    }
+
+    public Rental getRentalById(int id) {
+        if (!rentals.containsKey(id)) {
+            throw new IllegalArgumentException("No rental exists with this id");
+        }
+        return rentals.get(id);
+    }
+
+    public void returnMovie(int rentalId) {
+        Rental rental = getRentalById(rentalId);
+
+        if (rental.isReturned()) {
+            throw new IllegalStateException("Rental is already returned");
+        }
+
+        rental.markReturned();
+        rental.getCustomer().removeActiveRental(rental);
+        rental.getMovie().returnCopy();
     }
 
 }

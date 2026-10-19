@@ -103,12 +103,16 @@ This project currently includes:
 - system requirements
 - design notes and reasoning
 - Maven project configured with JUnit 5
-- a `Movie` class with input validation and unit tests
+- a `Movie` class with input validation and inventory tracking
 - a `Customer` class with name validation and active-rental tracking
 - a `Rental` class that tracks whether it has been returned
-- a `RentalService` that registers and looks up customers
+- a `RentalService` that registers customers, adds movies, and rents and returns movies
+- rental rules such as the limit of 3 active rentals, with rejected operations leaving state unchanged
+- 61 JUnit 5 tests, including in-memory integration tests of the rent and return workflow
+- JaCoCo coverage reporting, with 100% line and branch coverage
+- testing notes documenting the Red-Green-Refactor process
 
-This project is in progress. Renting and returning movies through `RentalService` is not yet implemented.
+It is an in-memory Java application. It has no database, REST API, or user interface.
 
 ---
 
@@ -151,7 +155,13 @@ software-engineering-learning-program/
         └── src/
             ├── main/java/
             │   ├── Movie.java
-            │   └── Rental.java
+            │   ├── Customer.java
+            │   ├── Rental.java
+            │   └── RentalService.java
             └── test/java/
-                └── MovieTest.java
+                ├── MovieTest.java
+                ├── CustomerTest.java
+                ├── RentalTest.java
+                ├── RentalServiceTest.java
+                └── RentalWorkflowIntegrationTest.java
 ```
