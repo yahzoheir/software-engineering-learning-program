@@ -199,3 +199,37 @@ tests with 0 failures.
 These tests passed as soon as they were written because rentMovie() and
 returnMovie() already existed, so there was no Red phase. They add
 coverage of multi-step behavior and do not drive new functionality.
+
+
+## Test coverage
+
+Coverage is measured with JaCoCo version 0.8.13, configured in pom.xml.
+The plugin attaches to the test run and writes a report during the test
+phase. No minimum coverage threshold is enforced yet, so the build does
+not fail on coverage.
+
+Command to run the tests and generate the report:
+- mvn clean test
+
+The HTML report is written to target/site/jacoco/index.html. The target
+folder is ignored by Git, so reports are not committed.
+
+Results from mvn clean test:
+- Full test suite: 61 tests passed, 0 failed, 0 skipped.
+- Line coverage: 100% (89/89).
+- Branch coverage: 100% (26/26).
+- Method coverage: 100% (26/26).
+- Instruction coverage: 100% (351/351).
+- Movie, Customer, Rental, and RentalService are each fully covered.
+
+The syllabus target of at least 70% coverage was exceeded.
+
+Coverage shows which code the tests execute. It does not show that the
+assertions are strong enough or that the behavior is correct. For
+example, the first rentMovie() test passed with its arguments swapped
+because both ids were 1, and it would have counted as covered. Some
+behavior is also outside the documented requirements and is untested:
+Customer.addActiveRental() accepts a null or duplicate rental,
+Movie.returnCopy() has no upper limit, and a customer may hold the
+same movie twice at once. The tests were written for the documented
+business rules, not to raise the coverage number.
