@@ -160,18 +160,116 @@ public class RentalServiceTest {
     void rentMovieCreatesRentalForCustomerAndMovie() {
         RentalService service = new RentalService();
         Customer customer = service.registerCustomer("Yahia");
+        service.addMovie("Fast and Furious", 1);
         Movie movie = service.addMovie("Inception", 2);
 
-        Rental rental = service.rentMovie(movie.getId(), customer.getId());
+        Rental rental = service.rentMovie(customer.getId(), movie.getId());
 
         assertEquals(1, rental.getId());
         assertEquals(customer, rental.getCustomer());
         assertEquals(movie, rental.getMovie());
     }
 
+    @Test
+    void rentMovieDecreasesAvailableCopiesByOne() {
+        RentalService service = new RentalService();
+        Customer customer = service.registerCustomer("Yahia");
+        Movie movie = service.addMovie("Inception", 2);
 
+        service.rentMovie(customer.getId(), movie.getId());
 
-     
+        assertEquals(1, movie.getAvailableCopies());
+    }
 
+    @Test
+    void rentMovieAddsRentalToCustomerActiveRentals() {
+        RentalService service = new RentalService();
+        Customer customer = service.registerCustomer("Yahia");
+        Movie movie = service.addMovie("Inception", 2);
+
+        Rental rental = service.rentMovie(customer.getId(), movie.getId());
+
+        assertEquals(1, customer.getActiveRentals().size());
+        assertSame(rental, customer.getActiveRentals().get(0));
+    }
+
+    @Test
+    void rentMovieAssignsConsecutiveRentalIds() {
+        RentalService service = new RentalService();
+        Customer customer = service.registerCustomer("Yahia");
+        Movie movie = service.addMovie("Inception", 2);
+
+        Rental rental1 = service.rentMovie(customer.getId(), movie.getId());
+        Rental rental2 = service.rentMovie(customer.getId(), movie.getId());
+
+        assertEquals(1, rental1.getId());
+        assertEquals(2, rental2.getId());
+    }
+
+    @Test
+    void rentMovieRejectsUnknownCustomer() {
+        RentalService service = new RentalService();
+        Customer customer = service.registerCustomer("Yahia");
+        Movie movie = service.addMovie("Inception", 2);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            service.rentMovie(99, movie.getId());
+        });
+
+        assertEquals(2, movie.getAvailableCopies());
+        assertEquals(1, service.rentMovie(customer.getId(), movie.getId()).getId());
+    }
+
+    @Test
+    void rentMovieRejectsUnknownMovie() {
+        RentalService service = new RentalService();
+        Customer customer = service.registerCustomer("Yahia");
+        Movie movie = service.addMovie("Inception", 2);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            service.rentMovie(customer.getId(), 99);
+        });
+
+        assertEquals(0, customer.getActiveRentals().size());
+        assertEquals(1, service.rentMovie(customer.getId(), movie.getId()).getId());
+    }
+
+    @Test
+    void rentMovieRejectsMovieWithNoAvailableCopies() {
+        RentalService service = new RentalService();
+        Customer customer = service.registerCustomer("Yahia");
+        Movie unavailableMovie = service.addMovie("Inception", 0);
+        Movie availableMovie = service.addMovie("Fast and Furious", 1);
+
+        assertThrows(IllegalStateException.class, () -> {
+            service.rentMovie(customer.getId(), unavailableMovie.getId());
+        });
+
+        assertEquals(0, unavailableMovie.getAvailableCopies());
+        assertEquals(0, customer.getActiveRentals().size());
+        assertEquals(1, service.rentMovie(customer.getId(), availableMovie.getId()).getId());
+    }
+
+    @Test
+    void rentMovieRejectsFourthActiveRental() {
+        RentalService service = new RentalService();
+        Customer customer = service.registerCustomer("Yahia");
+        Movie movie1 = service.addMovie("Inception", 1);
+        Movie movie2 = service.addMovie("Fast and Furious", 1);
+        Movie movie3 = service.addMovie("Interstellar", 1);
+        Movie movie4 = service.addMovie("The Matrix", 1);
+        service.rentMovie(customer.getId(), movie1.getId());
+        service.rentMovie(customer.getId(), movie2.getId());
+        service.rentMovie(customer.getId(), movie3.getId());
+
+        assertThrows(IllegalStateException.class, () -> {
+            service.rentMovie(customer.getId(), movie4.getId());
+        });
+
+        assertEquals(1, movie4.getAvailableCopies());
+        assertEquals(3, customer.getActiveRentals().size());
+        Customer otherCustomer = service.registerCustomer("Younes");
+        assertEquals(4, service.rentMovie(otherCustomer.getId(), movie4.getId()).getId());
+    }
 
 }
