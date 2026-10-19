@@ -60,6 +60,11 @@ public class RentalService {
         return rental;
     }
 
+    public Rental getRentalById(int id) {
+        return null;
+    }
 
+    public void returnMovie(int rentalId) {
+    }
 
 }
