@@ -19,10 +19,6 @@ Each month is organized separately so the work can be reviewed and navigated eas
 - [Database Schema](./month-01/library-management-system/database/schema.sql)
 - [Example SQL Queries](./month-01/library-management-system/database/example-queries.sql)
 
-### Month 2: TDD Practice
-
-- [Book Pricing Exercise](./month-02/testing/)
-
 ### Month 2: Movie Rental System
 
 - [README](./month-02/movie-rental-system/README.md)
@@ -92,14 +88,6 @@ The focus of this work is applying concepts such as:
 
 ---
 
-## Book Pricing TDD Exercise
-
-[Open Exercise](./month-02/testing/)
-
-A small TDD kata used to practice the red, green, refactor cycle with JUnit 5, covering discount calculation and its edge cases.
-
----
-
 ## Movie Rental System
 
 [Open Movie Rental System](./month-02/movie-rental-system/README.md)
@@ -164,12 +152,6 @@ software-engineering-learning-program/
 │       └── src/
 │
 └── month-02/
-    ├── testing/
-    │   ├── pom.xml
-    │   └── src/
-    │       ├── main/java/BookPricing.java
-    │       └── test/java/BookPricingTest.java
-    │
     ├── book-store-api/
     │   ├── README.md
     │   ├── pom.xml
