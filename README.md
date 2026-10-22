@@ -30,6 +30,12 @@ Each month is organized separately so the work can be reviewed and navigated eas
 - [Design Notes](./month-02/movie-rental-system/docs/design.md)
 - [Testing Notes](./month-02/movie-rental-system/docs/testing.md)
 
+### Month 2: Book Store REST API
+
+- [README](./month-02/book-store-api/README.md)
+- [Design Notes](./month-02/book-store-api/docs/design.md)
+- [Testing Reports](./month-02/book-store-api/docs/testing.md)
+
 ---
 
 ## Month 1 - OOP, System Design, and Databases
@@ -73,7 +79,7 @@ This project includes:
 
 ## Month 2: Unit Testing and TDD
 
-For Month 2, I'm practicing test-driven development and unit testing in Java with JUnit 5, then applying those skills to a second system-design exercise: a Movie Rental System.
+For Month 2, I'm practicing test-driven development and unit testing in Java with JUnit 5, then applying those skills to a second system-design exercise (a Movie Rental System) and a separate Spring Boot REST API (a Book Store API).
 
 The focus of this work is applying concepts such as:
 
@@ -116,6 +122,26 @@ It is an in-memory Java application. It has no database, REST API, or user inter
 
 ---
 
+## Book Store REST API
+
+[Open Book Store API](./month-02/book-store-api/README.md)
+
+A separate Spring Boot (Java 21, Maven) project for learning REST APIs. It is independent of the Movie Rental System, and I used AI assistance to build it and to write its design and testing reports (see its README).
+
+This project currently includes:
+
+- `GET /books` and `GET /books/{id}` to list and look up books
+- `POST /books` to create a book with a generated ID, returning 201
+- `PUT /books/{id}` to replace an existing book
+- `DELETE /books/{id}` to delete a book, returning 204
+- input validation, with 400 for blank or missing title or author, missing or negative price, and malformed JSON, and 404 for missing books
+- in-memory storage, so books disappear when the application restarts, and no database or authentication
+- 26 MockMvc tests that start the full Spring context without opening a network port
+- JaCoCo coverage reporting through `mvn clean verify`, with a 70% line coverage check: 94.74% line (36/38) and 100% branch (10/10) coverage
+- design notes and testing reports documenting each checkpoint
+
+---
+
 ## Repository Structure
 
 ```text
@@ -143,6 +169,26 @@ software-engineering-learning-program/
     │   └── src/
     │       ├── main/java/BookPricing.java
     │       └── test/java/BookPricingTest.java
+    │
+    ├── book-store-api/
+    │   ├── README.md
+    │   ├── pom.xml
+    │   ├── docs/
+    │   │   ├── design.md
+    │   │   └── testing.md
+    │   │
+    │   └── src/
+    │       ├── main/java/com/yahia/bookstore/
+    │       │   ├── Book.java
+    │       │   ├── BookController.java
+    │       │   ├── BookRepository.java
+    │       │   ├── BookRequest.java
+    │       │   ├── BookService.java
+    │       │   └── BookStoreApplication.java
+    │       └── test/java/com/yahia/bookstore/
+    │           ├── BookCollectionTest.java
+    │           ├── BookDeletionTest.java
+    │           └── BookReplacementTest.java
     │
     └── movie-rental-system/
         ├── README.md
