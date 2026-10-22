@@ -6,7 +6,7 @@ A separate Java Spring Boot Maven learning project. Movie Rental System remains 
 
 I used AI to help set up this Spring Boot Maven project and implement the API, tests, and coverage configuration. I asked it to report the changes it made, the tests it ran, and the results in the Markdown files so there would be a record of the work.
 
-The design and testing notes are AI-written implementation reports. I am using this project to learn REST APIs through questions, explanations, and walkthroughs of the code and have utilized AI throught building this projects to receive explanations and tips along the way.
+AI assistance was used for writing testing and design implementation reports. I am using this project to learn REST APIs through questions, explanations, and walkthroughs of the code and have utilized AI throught building this projects to receive explanations and tips along the way.
 
 See [design notes](docs/design.md) and [testing reports](docs/testing.md) for that record.
 
